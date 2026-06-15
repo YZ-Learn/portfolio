@@ -1,0 +1,89 @@
+2026-05-25 20:01:05,074 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有1条消息 
+2026-05-25 20:01:05,075 - agent - DEBUG - middleware.py:42 - [log_before_model]HumanMessage | 在我现在所在区域适合放飞无人机吗 
+2026-05-25 20:01:22,513 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_user_location 
+2026-05-25 20:01:22,513 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-25 20:01:22,514 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_user_location调用成功 
+2026-05-25 20:01:22,605 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有3条消息 
+2026-05-25 20:01:22,606 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 杭州 
+2026-05-25 20:01:38,609 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_weather 
+2026-05-25 20:01:38,609 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'city': '杭州'} 
+2026-05-25 20:01:38,610 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_weather调用成功 
+2026-05-25 20:01:40,127 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有5条消息 
+2026-05-25 20:01:40,128 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 城市杭州天气为晴天，气温26摄氏度，空气湿度30%，南风2级，AQI21，最近12小时降雨概率低 
+2026-05-25 20:01:48,593 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:01:48,594 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机在晴天低湿度环境下的飞行注意事项'} 
+2026-05-25 20:01:50,219 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:01:51,244 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有7条消息 
+2026-05-25 20:01:51,245 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 参考资料中未提及大疆无人机在晴天低湿度环境下的具体飞行注意事项。 
+2026-05-25 20:01:52,765 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:01:52,765 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机飞行环境要求和安全建议'} 
+2026-05-25 20:01:56,286 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:02:00,063 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有9条消息 
+2026-05-25 20:02:00,064 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 大疆无人机应在开阔、无遮挡、无电磁干扰的环境中飞行，远离人群、建筑物、高压线及机场等禁飞区域。飞行前需确保电量充足、螺旋桨安装牢固，并遵守当地法律法规。建议在良好天气条件下操作，避免雨雪、大风或强光环境，同时保持视距内飞行并随时准备手动接管。 
+2026-05-25 20:03:00,255 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有1条消息 
+2026-05-25 20:03:00,256 - agent - DEBUG - middleware.py:42 - [log_before_model]HumanMessage | 我的主要用途是去西藏旅拍 给我推荐哪一款无人机 
+2026-05-25 20:03:01,817 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:03:01,818 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '西藏旅拍 无人机推荐 高海拔'} 
+2026-05-25 20:03:03,998 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:03:04,865 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有3条消息 
+2026-05-25 20:03:04,866 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 参考资料中未提及西藏旅拍、无人机推荐或高海拔相关内容。 
+2026-05-25 20:03:06,976 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:03:06,977 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机 高海拔飞行 性能推荐'} 
+2026-05-25 20:03:10,027 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:03:13,244 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有5条消息 
+2026-05-25 20:03:13,246 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 大疆部分无人机型号支持高海拔飞行，如Mavic 3系列和Matrice 30系列，在高海拔环境下仍能保持稳定性能；建议选择具备高海拔优化设计、强抗风能力和长续航的机型，并注意电池在低温低氧环境下的性能衰减。 
+2026-05-25 20:03:15,042 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:03:15,043 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆 Mavic 3 Classic 西藏旅拍 适用性'} 
+2026-05-25 20:03:20,406 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:03:25,557 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有7条消息 
+2026-05-25 20:03:25,557 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 大疆 Mavic 3 Classic 在西藏旅拍中具备良好适用性，其轻便设计便于高原携带，支持4/3 CMOS哈苏相机与28倍混合变焦，可满足风光摄影需求；具备全向避障与APAS 5.0智能飞行功能，适应复杂地形；最大飞行高度5000米，符合西藏多数地区海拔要求，但需注意高寒环境下电池续航会缩短，建议携带备用电池并做好保温措施。 
+2026-05-25 20:04:47,482 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有1条消息 
+2026-05-25 20:04:47,483 - agent - DEBUG - middleware.py:42 - [log_before_model]HumanMessage | 根据25年4月到10月的飞行数据，帮我生成一个飞行报告 
+2026-05-25 20:04:51,858 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_user_id 
+2026-05-25 20:04:51,859 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-25 20:04:51,860 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_user_id调用成功 
+2026-05-25 20:04:52,009 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有3条消息 
+2026-05-25 20:04:52,011 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 1005 
+2026-05-25 20:04:57,540 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fill_context_for_report 
+2026-05-25 20:04:57,541 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-25 20:04:57,543 - agent - INFO - middleware.py:23 - [monitor_tool]工具fill_context_for_report调用成功 
+2026-05-25 20:04:58,439 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有5条消息 
+2026-05-25 20:04:58,440 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | fill_context_for_report()已调用 
+2026-05-25 20:05:03,527 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_current_month 
+2026-05-25 20:05:03,527 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-25 20:05:03,528 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_current_month调用成功 
+2026-05-25 20:05:03,773 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有7条消息 
+2026-05-25 20:05:03,774 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 2025-02 
+2026-05-25 20:05:11,279 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-25 20:05:11,280 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1005', 'month': '2025-04'} 
+2026-05-25 20:05:11,283 - agent - WARNING - agent_tools.py:80 - [fetch_external_data]中，未能检索到1005在2025-04中的使用记录 
+2026-05-25 20:05:11,284 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-25 20:05:11,285 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有9条消息 
+2026-05-25 20:05:11,285 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage |  
+2026-05-25 20:05:16,235 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-25 20:05:16,235 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1005', 'month': '2025-02'} 
+2026-05-25 20:05:16,236 - agent - WARNING - agent_tools.py:80 - [fetch_external_data]中，未能检索到1005在2025-02中的使用记录 
+2026-05-25 20:05:16,236 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-25 20:05:16,238 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有11条消息 
+2026-05-25 20:05:16,238 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage |  
+2026-05-25 20:05:21,276 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-25 20:05:21,276 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1005', 'month': '2025-01'} 
+2026-05-25 20:05:21,276 - agent - WARNING - agent_tools.py:80 - [fetch_external_data]中，未能检索到1005在2025-01中的使用记录 
+2026-05-25 20:05:21,276 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-25 20:05:21,278 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有13条消息 
+2026-05-25 20:05:21,279 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage |  
+2026-05-25 20:05:27,055 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:05:27,056 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机天文学观测使用建议和保养维护'} 
+2026-05-25 20:05:28,578 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:05:29,689 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有15条消息 
+2026-05-25 20:05:29,690 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 参考资料中未提及大疆无人机用于天文学观测的使用建议及保养维护相关内容。 
+2026-05-25 20:05:33,244 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:05:33,245 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机专业使用建议和维护保养指南'} 
+2026-05-25 20:05:35,002 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:05:36,079 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有17条消息 
+2026-05-25 20:05:36,080 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 参考资料中未提供关于大疆无人机专业使用建议和维护保养指南的具体内容。 
+2026-05-25 20:05:39,004 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-25 20:05:39,004 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机使用注意事项和保养建议'} 
+2026-05-25 20:05:43,710 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-25 20:05:48,527 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有19条消息 
+2026-05-25 20:05:48,528 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 使用大疆无人机时，应避免在强风、雨雪或电磁干扰强烈的环境中飞行；确保飞行前电池电量充足，螺旋桨安装牢固；遵守当地法律法规，不在禁飞区或人群密集区域操作。保养方面，需定期清洁机身和云台，避免灰尘和湿气积聚；长期存放时将电池电量保持在40%-60%，并置于干燥阴凉处；若长时间未使用，应定期充放电以维持电池活性。 

@@ -1,0 +1,57 @@
+2026-05-21 17:47:27,026 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有1条消息 
+2026-05-21 17:47:27,026 - agent - DEBUG - middleware.py:42 - [log_before_model]HumanMessage | 就我现在所在地区 适合飞无人机吗 
+2026-05-21 17:47:33,155 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_user_location 
+2026-05-21 17:47:33,156 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-21 17:47:33,161 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_user_location调用成功 
+2026-05-21 17:47:33,246 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有3条消息 
+2026-05-21 17:47:33,248 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 桂林 
+2026-05-21 17:47:38,573 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_weather 
+2026-05-21 17:47:38,573 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'city': '桂林'} 
+2026-05-21 17:47:38,577 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_weather调用成功 
+2026-05-21 17:47:40,093 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有5条消息 
+2026-05-21 17:47:40,093 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 城市桂林天气为晴天，气温26摄氏度，空气湿度30%，南风2级，AQI21，最近12小时降雨概率低 
+2026-05-21 17:48:34,171 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有1条消息 
+2026-05-21 17:48:34,171 - agent - DEBUG - middleware.py:42 - [log_before_model]HumanMessage | 我想要一个25年5-8月份的飞行记录报告 
+2026-05-21 17:48:39,546 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：get_user_id 
+2026-05-21 17:48:39,546 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-21 17:48:39,548 - agent - INFO - middleware.py:23 - [monitor_tool]工具get_user_id调用成功 
+2026-05-21 17:48:39,701 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有3条消息 
+2026-05-21 17:48:39,702 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 1008 
+2026-05-21 17:48:45,050 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fill_context_for_report 
+2026-05-21 17:48:45,051 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{} 
+2026-05-21 17:48:45,052 - agent - INFO - middleware.py:23 - [monitor_tool]工具fill_context_for_report调用成功 
+2026-05-21 17:48:45,950 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有5条消息 
+2026-05-21 17:48:45,951 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | fill_context_for_report()已调用 
+2026-05-21 17:48:49,554 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-21 17:48:49,554 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1008', 'month': '2025-05'} 
+2026-05-21 17:48:49,561 - agent - WARNING - agent_tools.py:80 - [fetch_external_data]中，未能检索到1008在2025-05中的使用记录 
+2026-05-21 17:48:49,562 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-21 17:48:49,564 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有7条消息 
+2026-05-21 17:48:49,564 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage |  
+2026-05-21 17:48:55,016 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-21 17:48:55,016 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1008', 'month': '2025-06'} 
+2026-05-21 17:48:55,019 - agent - WARNING - agent_tools.py:80 - [fetch_external_data]中，未能检索到1008在2025-06中的使用记录 
+2026-05-21 17:48:55,020 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-21 17:48:55,021 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有9条消息 
+2026-05-21 17:48:55,022 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage |  
+2026-05-21 17:48:58,458 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-21 17:48:58,458 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1008', 'month': '2025-07'} 
+2026-05-21 17:48:58,461 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-21 17:49:02,749 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有11条消息 
+2026-05-21 17:49:02,750 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | {"应用场景": "\"山地搜救\"", "电池情况": "\"电池寿命情况\": \"77%\\n\"", "飞行时长": "\"可飞行时长31min\\n\"", "天气情况": "\"天气：多云\"", "对比": "\"备注：机身有撞击凹痕，结构强度未受影响\""} 
+2026-05-21 17:49:05,153 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：fetch_external_data 
+2026-05-21 17:49:05,154 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'user_id': '1008', 'month': '2025-08'} 
+2026-05-21 17:49:05,156 - agent - WARNING - agent_tools.py:80 - [fetch_external_data]中，未能检索到1008在2025-08中的使用记录 
+2026-05-21 17:49:05,157 - agent - INFO - middleware.py:23 - [monitor_tool]工具fetch_external_data调用成功 
+2026-05-21 17:49:05,160 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有13条消息 
+2026-05-21 17:49:05,160 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage |  
+2026-05-21 17:49:09,922 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-21 17:49:09,923 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机电池保养与维护建议'} 
+2026-05-21 17:49:13,816 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-21 17:49:17,666 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有15条消息 
+2026-05-21 17:49:17,667 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 大疆无人机电池为锂电池，属娇贵且危险部件，80%炸机源于电池问题。严禁满电或亏电长期存放：满电易致鼓包，亏电会导致电芯“饿死”。若超过3天不使用，应将电量放至40%-60%（约3.8V/片）；大疆智能电池静置10天后会自动放电，但仍建议手动检查。 
+2026-05-21 17:49:20,411 - agent - INFO - middleware.py:19 - [monitor_tool]执行工具：rag_summarize 
+2026-05-21 17:49:20,411 - agent - INFO - middleware.py:20 - [monitor_tool]传入参数：{'query': '大疆无人机机身撞击后检查与维护'} 
+2026-05-21 17:49:23,091 - agent - INFO - middleware.py:23 - [monitor_tool]工具rag_summarize调用成功 
+2026-05-21 17:49:25,843 - agent - INFO - middleware.py:40 - [log_before_model]即调用模型，带有17条消息 
+2026-05-21 17:49:25,845 - agent - DEBUG - middleware.py:42 - [log_before_model]ToolMessage | 大疆无人机机身撞击后，应通过App上传飞行日志给大疆技术支持进行分析，以判断是飞机故障（如电机堵转）还是人为操作导致。电机堵转通常由撞击引起，日志分析是判定责任归属的唯一依据。 

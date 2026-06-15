@@ -1,0 +1,16 @@
+#
+collection_name: agent
+#
+persist_directory: chroma_db
+#返回结果
+k: 3
+#数据文件夹
+data_path: 大疆相关
+#记录哪些md5是呗处理过的
+md5_hex_store: md5.text
+#允许被加载的文件类型
+allow_konwledge_file_type: ['txt','pdf']
+
+chunk_size: 200
+chunk_overlap: 20
+separators: ["\n\n","\n",".","?","!","，"," ","","！","。","？"]
