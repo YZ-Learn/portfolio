@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJI 无人机智能客服系统 · 技术讲解</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",monospace,sans-serif;
+    background:#0d1117;color:#e6edf3;line-height:1.8
+  }
+  .container{max-width:860px;margin:0 auto;padding:0 28px}
+
+  /* ===== Video Player ===== */
+  .video-section{margin:20px 0 28px}
+  .video-section video{
+    display:block;width:100%;max-height:460px;
+    border-radius:10px;background:#000;
+    border:1px solid #30363d
+  }
+  .video-placeholder{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:#0d1117;padding:60px 20px;gap:16px;cursor:pointer;
+    border-radius:12px;border:2px dashed #30363d;transition:border-color .25s,background .25s
+  }
+  .video-placeholder:hover{border-color:#58a6ff66;background:#161b22}
+  .video-placeholder .play-icon{
+    width:64px;height:64px;border:2px solid #30363d;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transition:border-color .25s
+  }
+  .video-placeholder:hover .play-icon{border-color:#58a6ff}
+  .video-placeholder .play-icon svg{width:24px;height:24px;fill:#8b949e;margin-left:2px}
+  .video-placeholder:hover .play-icon svg{fill:#58a6ff}
+  .video-placeholder .label{color:#8b949e;font-size:.9rem}
+  .video-placeholder .sub-label{color:#484f58;font-size:.78rem}
+
+  /* ===== GitHub-style Top Bar ===== */
+  .topbar{
+    border-bottom:1px solid #21262d;padding:16px 0;
+    display:flex;align-items:center;gap:12px
+  }
+  .topbar .repo-name{font-weight:600;font-size:.92rem;color:#8b949e}
+  .topbar .repo-name span{color:#e6edf3}
+  .topbar .badge{
+    background:#1f6feb22;border:1px solid #1f6feb44;
+    padding:2px 10px;border-radius:20px;font-size:.7rem;color:#58a6ff
+  }
+
+  /* ===== Hero ===== */
+  .hero{padding:64px 0 48px}
+  .hero h1{
+    font-size:2.4rem;font-weight:700;letter-spacing:-.02em;
+    background:linear-gradient(135deg,#f0883e,#58a6ff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:12px
+  }
+  .hero p{color:#8b949e;font-size:1.05rem;max-width:640px}
+  .hero .meta{
+    display:flex;flex-wrap:wrap;gap:16px;margin-top:20px;font-size:.85rem;color:#8b949e
+  }
+  .hero .meta span{display:flex;align-items:center;gap:6px}
+
+  /* ===== Architecture Overview ===== */
+  .arch-section{padding:48px 0;border-top:1px solid #21262d}
+  .arch-section h2{font-size:1.4rem;font-weight:600;margin-bottom:24px}
+  .arch-section h2 code{
+    background:#21262d;padding:2px 10px;border-radius:6px;font-size:.9em;color:#f0883e
+  }
+
+  /* ===== Layer Box ===== */
+  .layers{display:flex;flex-direction:column;gap:4px;margin:24px 0 40px}
+  .layer{
+    border:1px solid #30363d;border-radius:10px;padding:20px 24px;
+    background:#161b22;position:relative;transition:border-color .2s
+  }
+  .layer:hover{border-color:#58a6ff44}
+  .layer .layer-label{
+    font-size:.75rem;color:#58a6ff;font-weight:500;letter-spacing:.05em;
+    margin-bottom:6px;text-transform:uppercase
+  }
+  .layer h3{font-size:1.05rem;margin-bottom:6px}
+  .layer p{font-size:.88rem;color:#8b949e;margin-bottom:6px}
+  .layer .file-path{
+    font-family:ui-monospace,SFMono-Regular,sans-serif;
+    font-size:.78rem;color:#484f58
+  }
+
+  /* ===== Code Block ===== */
+  pre{
+    background:#0d1117;border:1px solid #30363d;border-radius:8px;
+    padding:16px 20px;overflow-x:auto;margin:16px 0;font-size:.82rem;
+    line-height:1.6;tab-size:2
+  }
+  pre .kw{color:#ff7b72}
+  pre .fn{color:#d2a8ff}
+  pre .str{color:#a5d6ff}
+  pre .cm{color:#8b949e;font-style:italic}
+  pre .nu{color:#79c0ff}
+  pre .cl{color:#e6edf3}
+  pre .op{color:#ff7b72}
+  code{font-family:ui-monospace,SFMono-Regular,sans-serif}
+
+  /* ===== Grid ===== */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+
+  /* ===== Card ===== */
+  .card{
+    background:#161b22;border:1px solid #30363d;border-radius:10px;
+    padding:20px;transition:border-color .2s
+  }
+  .card:hover{border-color:#58a6ff44}
+  .card h4{font-size:.95rem;color:#f0883e;margin-bottom:8px}
+  .card p{font-size:.85rem;color:#8b949e;line-height:1.7}
+  .card code{font-size:.82rem;color:#e6edf3}
+  .card .tag{
+    display:inline-block;background:#1f6feb22;border:1px solid #1f6feb44;
+    padding:1px 10px;border-radius:12px;font-size:.72rem;color:#58a6ff;margin:2px 0
+  }
+
+  /* ===== Data Flow Diagram ===== */
+  .flow{
+    background:#161b22;border:1px solid #30363d;border-radius:10px;
+    padding:32px 20px;margin:24px 0;text-align:center;overflow-x:auto
+  }
+  .flow svg{max-width:100%;height:auto}
+  .flow-step{
+    display:inline-flex;align-items:center;gap:6px;
+    background:#0d1117;border:1px solid #30363d;border-radius:6px;
+    padding:6px 14px;margin:4px;font-size:.8rem;white-space:nowrap
+  }
+  .flow-step .colored{color:#58a6ff}
+  .flow-arrow{color:#484f58;margin:0 4px;font-size:1.2rem}
+  .flow-line{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px}
+
+  /* ===== Feature ===== */
+  .feature{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin:16px 0}
+  .feature h3{font-size:.95rem;color:#f0883e;margin-bottom:8px}
+  .feature p{font-size:.85rem;color:#8b949e;line-height:1.7}
+
+  /* ===== Footer ===== */
+  .footer{border-top:1px solid #21262d;padding:32px 0;margin-top:48px;text-align:center;color:#484f58;font-size:.82rem}
+
+  /* ===== Responsive ===== */
+  @media(max-width:640px){
+    .hero h1{font-size:1.7rem}
+    .grid-2{grid-template-columns:1fr}
+    .layers{gap:6px}
+  }
+</style>
+</head>
+<body>
+
+
+
+<div class="container">
+
+<!-- ===== Top Bar ===== -->
+<div class="topbar">
+  <span class="repo-name"><span>杨卓</span> / dji-agent-system</span>
+  <span class="badge">LangChain + Chroma + Qwen</span>
+  <span class="badge" style="background:#23863622;border-color:#23863644;color:#3fb950">production-ready</span>
+</div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>大疆无人机智能客服系统</h1>
+  <p>
+    一个基于 LangChain ReAct Agent + RAG 架构的 AI 客服系统。<br>
+    能懂无人机知识、能查天气、能分析飞行记录、能生成个性化报告。
+  </p>
+  <div class="meta">
+    <span>📂 Python 3.10+</span>
+    <span>🔗 LangChain + LangGraph</span>
+    <span>🧠 Qwen3-max + text-embedding-v4</span>
+    <span>📦 ChromaDB</span>
+    <span>⚡ Streamlit</span>
+  </div>
+</div>
+
+<!-- ===== ARCHITECTURE OVERVIEW ===== -->
+<div class="arch-section">
+  <!-- ===== VIDEO DEMO ===== -->
+  <div class="video-section">
+    <video controls autoplay muted playsinline loop>
+      <source src="大疆视频.mp4" type="video/mp4">
+      您的浏览器不支持视频播放
+    </video>
+  </div>
+
+  <h2>1. 整体架构 <code>docs/architecture.md</code></h2>
+
+  <p style="color:#8b949e;font-size:.92rem;margin-bottom:28px">
+    五个层叠结构，从下到上：模型 → 知识库 → 工具 → Agent → 界面。
+    每层解耦，配置驱动。
+  </p>
+
+  <div class="layers">
+    <div class="layer" style="border-left:3px solid #58a6ff">
+      <div class="layer-label">UI 层 · app.py</div>
+      <h3>Streamlit 聊天界面</h3>
+      <p>用户发送消息 → agent.execute_stream() → 流式逐字渲染。</p>
+      <p style="font-size:.82rem;color:#484f58">
+        用 session_state 保持 Agent 实例和对话历史，不重复初始化。
+      </p>
+      <div class="file-path">app.py | Streamlit</div>
+    </div>
+
+    <div class="layer" style="border-left:3px solid #d2a8ff">
+      <div class="layer-label">Agent 决策层 · Agent/</div>
+      <h3>ReactAgent (ReAct 推理引擎)</h3>
+      <p>
+        用 LangChain 的 create_agent 组装。每次用户提问走一个
+        <strong>思考→行动→观察→再思考</strong> 的闭环。
+        最多调 5 次工具，超了说不知道。
+      </p>
+      <div class="file-path">Agent/react_agent.py + Agent/tools/agent_tools.py</div>
+    </div>
+
+    <div class="layer" style="border-left:3px solid #f0883e">
+      <div class="layer-label">工具 / 中间件层 · Agent/tools/</div>
+      <h3>7 个业务工具 + 3 个中间件</h3>
+      <p>
+        工具从 Chroma 里查资料、查天气、查用户飞行记录。中间件做
+        <strong>日志监控、调用链路追踪、动态提示词切换</strong>。
+      </p>
+      <div class="file-path">middleware.py — 我最满意的设计点</div>
+    </div>
+
+    <div class="layer" style="border-left:3px solid #3fb950">
+      <div class="layer-label">知识库层 · RAG/</div>
+      <h3>Chroma 向量数据库 + RAG 服务</h3>
+      <p>
+        文档分片 → 嵌入 → 存 Chroma。查询时走 Retriever → LLM 重总结。
+        MD5 去重，PDF/TXT 自动加载。
+      </p>
+      <div class="file-path">RAG/rag_service.py + RAG/vector_store.py</div>
+    </div>
+
+    <div class="layer" style="border-left:3px solid #ff7b72">
+      <div class="layer-label">模型层 · model/</div>
+      <h3>模型工厂 + YAML 配置驱动</h3>
+      <p>
+        通过抽象工厂模式，封装阿里云 DashScope 的聊天模型和嵌入模型。
+        模型名称写在 yml 里，切换不用改代码。
+      </p>
+      <div class="file-path">model/factory.py + config/rag.yml</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AGENT CORE ===== -->
+<div class="arch-section">
+  <h2>2. Agent 核心 <code>Agent/react_agent.py</code></h2>
+  <p style="color:#8b949e;font-size:.92rem;margin-bottom:16px">
+    整个系统的中枢。create_agent 把模型、提示词、工具、中间件拼成一个
+    LangGraph 可执行图。
+  </p>
+
+  <pre><span class="kw">from</span> langchain.agents <span class="kw">import</span> create_agent
+<span class="kw">from</span> model.factory <span class="kw">import</span> <span class="fn">chat_model</span>
+<span class="kw">from</span> Agent.tools.middleware <span class="kw">import</span> <span class="fn">monitor_tool</span>, <span class="fn">log_before_model</span>, <span class="fn">report_prompt_switch</span>
+
+<span class="kw">class</span> <span class="fn">ReactAgent</span>():
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="cl">self</span>):
+        <span class="cl">self</span>.agent = <span class="fn">create_agent</span>(
+            model=<span class="fn">chat_model</span>,
+            system_prompt=<span class="fn">load_system_prompts</span>(),
+            tools=[rag_summarize, get_weather, get_user_id,
+                   get_current_month, get_user_location,
+                   fetch_external_data, fill_context_for_report],
+            middleware=[monitor_tool, log_before_model, report_prompt_switch]
+        )
+</pre>
+
+  <p style="color:#8b949e;font-size:.9rem;margin:12px 0">
+    执行时走 stream 流式模式，逐 chunk 吐内容，前端逐字渲染。
+    <strong style="color:#e6edf3">用户看到的是打字机效果，不是整段等。</strong>
+  </p>
+
+  <pre><span class="kw">def</span> <span class="fn">execute_stream</span>(<span class="cl">self</span>, query: <span class="fn">str</span>):
+    input_dict = {<span class="str">'messages'</span>: [(<span class="str">'user'</span>, query)]}
+    <span class="kw">for</span> chunk <span class="kw">in</span> <span class="cl">self</span>.agent.stream(input_dict, stream_mode=<span class="str">'values'</span>, context={<span class="str">'report'</span>: <span class="kw">False</span>}):
+        last_message = chunk[<span class="str">'messages'</span>][-<span class="nu">1</span>]
+        <span class="kw">if</span> last_message.content:
+            <span class="kw">yield</span> last_message.content.strip() + <span class="str">'\n'</span></pre>
+</div>
+
+<!-- ===== TOOLS & MIDDLEWARE ===== -->
+<div class="arch-section">
+  <h2>3. 工具系统 + 中间件 <code>Agent/tools/</code></h2>
+  <p style="color:#8b949e;font-size:.92rem;margin-bottom:16px">
+    7 个 @tool 装饰的函数 = 7 个原子能力。中间件像钩子一样挂在工具调用前后，
+    做日志、监控、动态换提示词。
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>🔍 rag_summarize</h4>
+      <p>从 Chroma 向量库检索并让 LLM 重总结。覆盖故障处理、保养、选购等知识。</p>
+      <span class="tag">RAG</span><span class="tag">LangChain</span>
+    </div>
+    <div class="card">
+      <h4>🌤 get_weather</h4>
+      <p>获取城市天气。会配合 get_user_location 自动判断用户位置再查天气。</p>
+      <span class="tag">Tool Chain</span>
+    </div>
+    <div class="card">
+      <h4>👤 get_user_id / get_user_location / get_current_month</h4>
+      <p>获取用户上下文：ID、所在城市、当前月份。为个性化服务提供基础信息。</p>
+      <span class="tag">Context</span>
+    </div>
+    <div class="card">
+      <h4>📊 fetch_external_data</h4>
+      <p>从外部 CSV 读取用户飞行记录。按 user_id + month 检索。</p>
+      <span class="tag">Data Integration</span>
+    </div>
+    <div class="card" style="grid-column:1/-1">
+      <h4>🔌 fill_context_for_report — 中间件触发器</h4>
+      <p>
+        最巧妙的设计。这个工具本身不返回值，但在中间件里注入
+        <code>context['report'] = True</code> 标记。
+        report_prompt_switch 中间件检测到这个标记后，自动把 Agent 的系统提示词
+        <strong>从"客服提示词"切换成"报告生成提示词"</strong>。
+      </p>
+      <span class="tag">Middlware</span><span class="tag">Dynamic Prompt</span>
+    </div>
+  </div>
+
+  <p style="color:#8b949e;font-size:.9rem;margin:12px 0">
+    中间件是关键设计。LangChain 支持 <code>@wrap_tool_call</code>、
+    <code>@before_model</code>、<code>@dynamic_prompt</code> 三种钩子。
+    我三个都用上了：
+  </p>
+
+  <pre><span class="cm"># 工具调用时：记录日志 + 注入 report 标记</span>
+@<span class="fn">wrap_tool_call</span>
+<span class="kw">def</span> <span class="fn">monitor_tool</span>(request, handler):
+    logger.info(<span class="str">f"[monitor_tool]执行工具：{request.tool_call['name']}"</span>)
+    result = handler(request)
+    <span class="kw">if</span> request.tool_call[<span class="str">'name'</span>] == <span class="str">"fill_context_for_report"</span>:
+        request.runtime.context[<span class="str">'report'</span>] = <span class="kw">True</span>  <span class="cm"># ← 注入标记</span>
+    <span class="kw">return</span> result
+
+<span class="cm"># 模型推理前：检查标记，动态切换提示词</span>
+@<span class="fn">dynamic_prompt</span>
+<span class="kw">def</span> <span class="fn">report_prompt_switch</span>(request):
+    <span class="kw">if</span> request.runtime.context.get(<span class="str">"report"</span>, <span class="kw">False</span>):
+        <span class="kw">return</span> <span class="fn">load_report_prompts</span>()   <span class="cm"># ← 切到报告模式</span>
+    <span class="kw">return</span> <span class="fn">load_system_prompts</span>()        <span class="cm"># ← 默认客服模式</span></pre>
+</div>
+
+<!-- ===== RAG PIPELINE ===== -->
+<div class="arch-section">
+  <h2>4. RAG 流水线 <code>RAG/</code></h2>
+  <p style="color:#8b949e;font-size:.92rem;margin-bottom:16px">
+    专业文档 → 分片 → 嵌入 → 存 Chroma → 检索 → LLM 重总结。
+    支持自动加载 PDF/TXT，MD5 去重。
+  </p>
+
+  <div class="feature">
+    <h3>📄 文档加载器 (vector_store.py)</h3>
+    <p>
+      遍历 <code>大疆相关/</code> 目录，自动识别 .txt 和 .pdf。
+      用 <code>RecursiveCharacterTextSplitter</code> 分片（200字符/片，20字符重叠）。
+      <strong>每次加文档前算 MD5，重复内容自动跳过。</strong>
+    </p>
+  </div>
+
+  <div class="feature">
+    <h3>🔎 检索 + 重总结 (rag_service.py)</h3>
+    <p>
+      查 Chroma 取 top-3 相关文档，拼成 context，
+      用定制 PromptTemplate 让 LLM 基于参考资料生成答案。
+      再加了一层 <code>StrOutputParser</code> 确保返回纯文本。
+    </p>
+  </div>
+
+  <pre><span class="cm"># RAG 链：Prompt → LLM → 纯文本</span>
+chain = prompt_template | <span class="fn">print_prompt</span> | model | <span class="fn">StrOutputParser</span>()
+
+<span class="kw">def</span> <span class="fn">rag_summarize</span>(<span class="cl">self</span>, query: <span class="fn">str</span>) -> <span class="fn">str</span>:
+    context_docs = <span class="cl">self</span>.retriever_docs(query)
+    context = <span class="str">""</span>
+    <span class="kw">for</span> i, doc <span class="kw">in</span> <span class="fn">enumerate</span>(context_docs, <span class="nu">1</span>):
+        context += <span class="str">f"[参考资料{i}：{doc.page_content}]"</span>
+    <span class="kw">return</span> <span class="cl">self</span>.chain.<span class="fn">invoke</span>({<span class="str">"user_input"</span>: query, <span class="str">"reference"</span>: context})</pre>
+</div>
+
+<!-- ===== DATA FLOW ===== -->
+<div class="arch-section">
+  <h2>5. 核心流程：从用户提问到回答</h2>
+
+  <div class="flow" style="padding:20px">
+    <div class="flow-line">
+      <span class="flow-step">👤 用户提问</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Streamlit 接收</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step"><span class="colored">ReactAgent</span> 解析</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">🧠 <span class="colored">LLM 思考</span></span>
+    </div>
+    <div class="flow-line" style="margin-top:8px">
+      <span class="flow-step">← 需要资料？→</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">🔧 调工具</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">📊 拿结果</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">🔄 再思考</span>
+    </div>
+    <div class="flow-line" style="margin-top:8px">
+      <span class="flow-step">✅ 信息够了</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">💬 LLM 生成回答</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">⚡ 流式输出</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">📱 用户看到</span>
+    </div>
+  </div>
+
+  <p style="color:#8b949e;font-size:.88rem;margin-top:12px">
+    最复杂的是<strong>报告生成</strong>路径：获取 ID → 获取月份 → 调 fill_context_for_report →
+    中间件注入标记 → 系统自动切提示词 → 拉飞行记录 → 查保养资料 → LLM 写完整报告。
+    整个过程<strong>Agent 自主决策调用顺序</strong>，不是写死的。
+  </p>
+
+  <pre><span class="cm"># 报告生成的工具调用链（Agent 自主决定，不是硬编码）</span>
+<span class="nu">1</span>. <span class="fn">get_user_id</span>()             → <span class="str">"1005"</span>
+<span class="nu">2</span>. <span class="fn">get_current_month</span>()      → <span class="str">"2025-06"</span>
+<span class="nu">3</span>. <span class="fn">fill_context_for_report</span>()  → <span class="cm"># 中间件注入 report=True</span>
+<span class="nu">4</span>. <span class="fn">fetch_external_data</span>(..., ...) → <span class="cm"># 拉飞行记录</span>
+<span class="nu">5</span>. <span class="fn">rag_summarize</span>(<span class="str">"无人机 保养"</span>) → <span class="cm"># 查保养资料</span>
+                               → <span class="str">"天文学家张大冰之大疆使用情况报告..."</span></pre>
+</div>
+
+<!-- ===== PROJECT STRUCTURE ===== -->
+<div class="arch-section">
+  <h2>6. 项目结构</h2>
+
+  <pre style="font-size:.78rem;line-height:1.5">
+Agent项目/
+├── <span style="color:#58a6ff">Agent/</span>                    ← Agent 核心
+│   ├── <span style="color:#e6edf3">react_agent.py</span>          ← ReAct 决策引擎
+│   └── <span style="color:#e6edf3">tools/</span>
+│       ├── <span style="color:#e6edf3">agent_tools.py</span>        ← 7 个业务工具
+│       └── <span style="color:#e6edf3">middleware.py</span>          ← 3 个中间件钩子
+├── <span style="color:#58a6ff">RAG/</span>                      ← 检索增强生成
+│   ├── <span style="color:#e6edf3">rag_service.py</span>          ← RAG 总结服务
+│   └── <span style="color:#e6edf3">vector_store.py</span>          ← Chroma 向量库封装
+├── <span style="color:#58a6ff">model/</span>
+│   └── <span style="color:#e6edf3">factory.py</span>               ← 抽象模型工厂
+├── <span style="color:#58a6ff">config/</span>                    ← YAML 配置驱动
+│   ├── <span style="color:#e6edf3">rag.yml</span>                  ← 模型名称
+│   ├── <span style="color:#e6edf3">chroma.yml</span>               ← 分片参数
+│   ├── <span style="color:#e6edf3">agent.yml</span>                ← 数据路径
+│   └── <span style="color:#e6edf3">prompt.yml</span>               ← 提示词路径
+├── <span style="color:#58a6ff">prompts/</span>                   ← 提示词模板
+├── <span style="color:#58a6ff">utils/</span>                     ← 工具函数
+├── <span style="color:#e6edf3">logs/</span>                      ← 日志输出
+├── <span style="color:#e6edf3">大疆相关/</span>                   ← 原始文档 + 飞行数据 CSV
+└── <span style="color:#e6edf3">app.py</span>                     ← Streamlit 入口</pre>
+</div>
+
+<!-- ===== WHY IT MATTERS ===== -->
+<div class="arch-section">
+  <h2>7. 这个项目说明了什么</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>🎯 完整的 Agent 0→1 能力</h4>
+      <p>
+        从环境配置、模型接入、RAG 搭建、工具设计到前端展示，
+        整个链路自己一个人打通。不是调了个 API 就完事。
+      </p>
+    </div>
+    <div class="card">
+      <h4>⚙️ 工程思维</h4>
+      <p>
+        YAML 配置驱动、抽象工厂、MD5 去重、日志体系、分片策略——
+        不是写完能跑就行，考虑到了可维护和可扩展。
+      </p>
+    </div>
+    <div class="card">
+      <h4>🔌 中间件设计</h4>
+      <p>
+        利用 LangChain 的中间件机制做动态提示词切换，一个工具调用
+        触发整个思维模式的转变。比 if-else 写死在代码里优雅得多。
+      </p>
+    </div>
+    <div class="card">
+      <h4>🧪 可演示可落地</h4>
+      <p>
+        Streamlit 界面 + 流式输出 + 真实知识库，装好就能跑给老板看。
+        不是"我有个想法"，是"我已经做好了，你看"。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <p>杨卓 · DJI 无人机智能客服系统 · 技术讲解</p>
+  <p style="margin-top:4px">LangChain + ChromaDB + Qwen3-max · 2026</p>
+</div>
+
+</div>
+</body>
+</html>
